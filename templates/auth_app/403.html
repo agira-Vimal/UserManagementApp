@@ -1,0 +1,14 @@
+<!-- auth_app/templates/auth_app/403.html -->
+{% extends 'auth_app/layouts/main.html' %}
+
+{% block title %}
+Permission Denied | USER MANAGEMENT
+{% endblock title %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center text-danger">Permission Denied</h1>
+    <p class="text-center">Only Admins can access this feature.</p>
+    <p class="text-center"><a href="{% url 'login' %}">Login</a></p>
+</div>
+{% endblock content %}

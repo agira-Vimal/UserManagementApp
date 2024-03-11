@@ -1,0 +1,29 @@
+<nav class="navbar navbar-expand-lg  navbar-dark bg-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="{% url 'home' %}"><i class="bi-people"></i> User Management</a>
+      {% if request.user.is_superuser %}
+            <a class="nav-link text-light" aria-current="page" href="{% url 'user_profile_page' %}"><i class="bi-person-check"></i> Admin</a>
+     {% endif %}
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav ms-auto">
+          <a class="nav-link text-light" aria-current="page" href="{% url 'home' %}"><i class="fa fa-home"></i> Home</a>
+          {% if request.user.is_authenticated %}
+            <a class="nav-link text-light" aria-current="page" href="{% url 'user_profile_page' %}"><i class="fa fa-user"></i> {{request.user}}</a>
+            <a class="nav-link text-light" aria-current="page" href="{% url 'logout' %}"><i class="fa fa-sign-out"></i> Logout</a>
+            <a class="nav-link text-light" aria-current="page" href="{% url 'update_user_profile' %}"><i class="bi-person-plus"></i> Update Profile</a>
+            <a class="nav-link text-light" aria-current="page" href="{% url 'password_change' %}"><i class="bi bi-key"></i> Change Password</a>
+            {% if request.user.is_superuser %}
+            <a class="nav-link text-light" aria-current="page" href="{% url 'dashboard' %}"><i class="bi-file-bar-graph"></i> Dashboard</a>
+            {% endif %}
+          {% else %}
+            <a class="nav-link text-light" href="{% url 'login' %}"><i class="fa fa-sign-in"></i> Login</a>
+            <a class="nav-link text-light" href="{% url 'register' %}"><i class="fa fa-users"></i> Register</a>
+            <a class="nav-link text-light" aria-current="page" href="{% url 'password_reset' %}"><i class="bi bi-key"></i> Reset Password</a>
+          {% endif %}
+            </div>
+      </div>
+    </div>
+  </nav>

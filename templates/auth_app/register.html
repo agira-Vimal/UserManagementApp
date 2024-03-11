@@ -1,0 +1,51 @@
+{% extends 'auth_app/layouts/main.html' %}
+{% load static %}
+{% block title %}
+Registration | USER ACCOUNT MANAGEMENT
+{% endblock title %}
+{% block content %}
+
+<div class="container mb-2" style="margin-top: 100px; min-height: 486px;">
+    <div class="row justify-content-center">
+        <div class="col-6 col-md-4">
+            <div style="border: 2px solid #0A60AF; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); border-radius: 20px; padding: 20px; background-color:rgba(0,0,0,0.5);">
+                <h4 class="text-center text-light" style="font-family: Georgia, 'Times New Roman', Times, serif;font-size:34px;">Sign Up</h4>
+                {% include 'auth_app/includes/message.html' %}
+                <form method="post" action="{% url 'register' %}" style="max-width: 380px; margin: 0 auto;" novalidate>
+                    {% csrf_token %}
+                    <div class="mb-1">
+                        <label for="" class="form-label text-light">User Name</label>
+                        {{ form.username }}                        
+                        {% if form.errors.username %}
+                            <label class="text-danger d-block">{{ form.errors.username }}</label>
+                        {% endif %}
+                    </div>
+                    <div class="mb-1">
+                        <label for="" class="form-label text-light">Email Id</label>
+                        {{ form.email }}
+                        {% if form.errors.email %}
+                            <label class="text-danger d-block">{{ form.errors.email }}</label>
+                        {% endif %}
+                    </div>
+                    <div class="mb-1">
+                        <label for="" class="form-label text-light">Password</label>
+                        {{ form.password1 }}
+                        {% if form.errors.password1 %}
+                            <label class="text-danger d-block">{{ form.errors.password1 }}</label>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label for="" class="form-label text-light">Confirm Password</label>
+                        {{ form.password2 }}
+                        {% if form.errors.password2 %}
+                            <label class="text-danger d-block">{{ form.errors.password2 }}</label>
+                        {% endif %}
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Register</button>
+                </form>
+                <p class="my-2 text-center text-light">Already a user? <a href="{% url 'login' %}">Login Now</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

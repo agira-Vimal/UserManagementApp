@@ -1,0 +1,63 @@
+{% extends 'auth_app/layouts/main.html' %} 
+{% block title %}
+ADMIN DASHBOARD {% endblock title %} 
+{% block content %} 
+<!-- {% include 'auth_app/includes/message.html' %} -->
+<div class="container mb-2" style="margin-top: 100px; min-height: 486px">
+  <div id="search-bar" class="mb-2"style="text-align: right;">
+    <form action="" method="GET">
+        <input type="search" name="username" placeholder="Search...">
+        <input type="submit" value="Search">
+    </form>
+</div>
+  <div class="row justify-content-center">
+    <div class="col-12">
+      <div style="border: 2px solid #0a60af; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); border-radius: 20px; padding: 20px; background-color: rgba(0, 0, 0, 0.5);">
+        <h2 class="text-center text-light mb-4">ADMIN DASHBOARD</h2>
+        <table class="table table-bordered table-striped table-dark" id="userTable" data-current-page="{{ users_data.number }}" data-last-page="{{ users_data.paginator.num_pages }}">
+          <thead>
+            <tr>
+              <th>S.No</th>
+              <th>Username</th>
+              <th>Surname</th>
+              <th>Email</th>
+              <th>Phone Number</th>
+              <th>Edit</th>
+              <th>Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% include 'auth_app/includes/message.html' %}
+            {% for user_data in users_data %}
+              <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ user_data.user.username }}</td>
+                <td>{{ user_data.surname }}</td>
+                <td>{{ user_data.user.email }}</td>
+                <td>{{ user_data.phone_number }}</td>
+                <td><a href="{% url 'edit_profile' user_data.user_id %}" class="btn btn-warning btn-sm">Edit</a></td>
+                <td><a href="{% url 'delete_profile' user_data.user.id %}" class="btn btn-danger btn-sm">Delete</a></td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <nav aria-label="Page navigation example">
+          <ul class="pagination justify-content-center mt-5">
+            {% if users_data.has_previous %}
+              <li class="page-item"><a class="btn btn-secondary mx-1" href="?page=1">&laquo; First</a></li>
+              <li class="page-item"><a class="btn btn-secondary mx-1" href="?page={{ users_data.previous_page_number }}">Previous</a></li>
+            {% endif %}
+            {% for i in num_pages %}
+              <li class="page-item"><a class="btn btn-primary mx-1 pageBtn" href="?page={{ i }}">{{ i }}</a></li>
+            {% endfor %}
+            {% if users_data.has_next %}
+              <li class="page-item"><a class="btn btn-secondary mx-1" href="?page={{ users_data.next_page_number }}">Next</a></li>
+              <li class="page-item"><a class="btn btn-secondary mx-1" href="?page={{ users_data.paginator.num_pages }}">Last &raquo;</a></li>
+            {% endif %}
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

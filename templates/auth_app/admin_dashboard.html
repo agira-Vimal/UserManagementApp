@@ -1,0 +1,111 @@
+{% extends 'auth_app/layouts/main.html' %} 
+
+{% block title %}
+ADMIN DASHBOARD 
+{% endblock title %} 
+
+{% block content %} 
+<div class="container mb-2" style="margin-top: 100px; min-height: 486px">
+  <div class="row justify-content-center">
+    <div class="col-12">
+      <div style="border: 2px solid #0a60af; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); border-radius: 20px; padding: 20px; background-color: rgba(0, 0, 0, 0.5);">
+        <h2 class="text-center text-light mb-4">ADMIN DASHBOARD</h2>
+        <table class="table table-bordered table-striped table-dark" id="userTable" data-current-page="{{ users_data.number }}" data-last-page="{{ users_data.paginator.num_pages }}">
+
+            <thead>
+                <tr>
+                    <th>S.No</th>
+                    <th>Username</th>
+                    <th>Surname</th>
+                    <th>Email</th>
+                    <th>Phone Number</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+              <tbody>
+                {% for user_data in users_data %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ user_data.user.username }}</td>
+                    <td>{{ user_data.surname }}</td>
+                    <td>{{ user_data.user.email }}</td>
+                    <td>{{ user_data.phone_number }}</td>
+                    <td><a href="{% url 'edit_profile' user_data.user_id %}" class="btn btn-warning btn-sm">Edit</a></td>
+                    <td><a href="{% url 'delete_profile' user_data.user.id %}" class="btn btn-danger btn-sm">Delete</a></td>
+                </tr>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+
+        <nav aria-label="Page navigation example">
+          <ul class="pagination justify-content-center mt-5">
+            {% if users_data.has_previous %}
+              <button class="btn btn-secondary mx-1" id="firstPageBtn">&laquo; First</button>
+              <button class="btn btn-secondary mx-1" id="prevPageBtn">Previous</button>
+            {% endif %}
+
+            {% for i in num_pages %}
+              <button class="btn btn-primary mx-1 pageBtn" data-page="{{ i }}">{{ i }}</button>
+            {% endfor %}
+
+            {% if users_data.has_next %}
+              <button class="btn btn-secondary mx-1" id="nextPageBtn">Next</button>
+              <button class="btn btn-secondary mx-1" id="lastPageBtn">Last &raquo;</button>
+            {% endif %}
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var currentPage = $('#userTable').data('currentPage');
+    
+        $('#userTable').on('click', '.pageBtn', function () {
+            var page = $(this).data('page');
+            sendAjaxRequest(page);
+        });
+    
+        $('#firstPageBtn').on('click', function () {
+            sendAjaxRequest(1);
+        });
+    
+        $('#prevPageBtn').on('click', function () {
+            var prevPage = currentPage - 1;
+            if (prevPage >= 1) {
+                sendAjaxRequest(prevPage);
+            }
+        });
+    
+        $('#nextPageBtn').on('click', function () {
+            var nextPage = currentPage + 1;
+            sendAjaxRequest(nextPage);
+        });
+    
+        $('#lastPageBtn').on('click', function () {
+            var lastPage = $('#userTable').data('lastPage');
+            sendAjaxRequest(lastPage);
+        });
+    
+        function sendAjaxRequest(page) {
+            var url = '?page=' + page;
+            $.ajax({
+                url: url,
+                type: 'GET',
+                dataType: 'html',  // Change to 'json' if you prefer
+                success: function (data) {
+                    $('#userTable tbody').html(data);
+                },
+                error: function () {
+                    alert('Error fetching data.');
+                }
+            });
+        }
+    });
+    
+</script>
+{% endblock content %}

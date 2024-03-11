@@ -1,0 +1,118 @@
+{% extends 'auth_app/layouts/main.html' %}
+
+{% block title %} User Profile | USER MANAGEMENT {% endblock %}
+
+{% block content %}
+<div class="container rounded mt-3 pt-1 mb-4 pb-4" style="min-height: 300px; background-color: rgba(0, 0, 0, 0.5);">
+  {% include 'auth_app/includes/message.html' %}
+    <h1 class="text-center text-light mt-5 pt-5">Update Profile</h1>
+
+    <div class="row">
+        <!-- Left Column -->
+        <div class="col-md-3 border-right">
+            <div class="d-flex flex-column align-items-center text-light text-center p-3 py-5">
+                <img class="rounded-circle mt-3" width="150px" src="{{ profile_picture }}">
+                <span class="font-weight-bold text-light mt-2">{{ username }}</span>
+                <span class="text-light" style="color:#fff">{{ email }}</span>
+            </div>
+        </div>
+
+        <!-- Center Column -->
+        <div class="col-md-5 border-right">
+            <form action="{% url 'update_user_profile' %}" method="POST" style="max-width: 100%; margin: 0 auto" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="p-3 py-3">
+                    <div class="row mt-2">
+                        <div class="col-md-12">
+                            <label class="labels">{{ form.surname.label }}:</label>
+                            {{ form.surname }}
+                            {% if form.errors.surname %}
+                                <label class="text-danger d-block">{{ form.errors.surname }}</label>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <label class="labels">{{ form.address_line_1.label }}:</label>
+                            {{ form.address_line_1 }}
+                            {% if form.errors.address_line_1 %}
+                                <label class="text-danger d-block">{{ form.errors.address_line_1 }}</label>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <label class="labels">{{ form.state.label }}:</label>
+                            {{ form.state }}
+                            {% if form.errors.state %}
+                                <label class="text-danger d-block">{{ form.errors.state }}</label>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <label class="labels">{{ form.postcode.label }}:</label>
+                            {{ form.postcode }}
+                            {% if form.errors.postcode %}
+                                <label class="text-danger d-block">{{ form.errors.postcode }}</label>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Add other fields as needed -->
+
+                </div>
+            </div>
+
+        <!-- Right Column -->
+        <div class="col-md-4">
+            <div class="py-5 pt-4">
+                <div class="row pb-3">
+                    <div class="col-md-12">
+                        <label class="labels">{{ form.phone_number.label }}:</label>
+                        {{ form.phone_number }}
+                        {% if form.errors.phone_number %}
+                            <label class="text-danger d-block">{{ form.errors.phone_number }}</label>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="row pb-3">
+                    <div class="col-md-12">
+                        <label class="labels">{{ form.address_line_2.label }}:</label>
+                        {{ form.address_line_2 }}
+                        {% if form.errors.address_line_2 %}
+                            <label class="text-danger d-block">{{ form.errors.address_line_2 }}</label>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="row pb-3">
+                    <div class="col-md-12">
+                        <label class="labels">{{ form.country.label }}:</label>
+                        {{ form.country }}
+                        {% if form.errors.country %}
+                            <label class="text-danger d-block">{{ form.errors.country }}</label>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <label for="{{ form.profile_picture.id_for_label }}" class="labels">{{ form.profile_picture.label }}:</label>
+                        {{ form.profile_picture }}
+                        {% if form.errors.profile_picture %}
+                            <label class="text-danger d-block">{{ form.errors.profile_picture }}</label>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center">
+            <button class="btn btn-primary mt-2 profile-button" type="submit">Update Profile</button>
+        </div>
+    </form>
+    </div>
+</div>
+{% endblock %}
